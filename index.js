@@ -2,21 +2,35 @@ const mdc = require('markdown-core/markdown-core-node');
 require('./index.css');
 const React = require('react');
 const ReactDOM = require('react-dom');
+const { createStore } = require('redux');
 
 
 class MarkdownEditor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { markdown: '' };
-  }
   render() {
+    const { markdown, updateMarkdown } = this.props;
     return (
       <div>
-        <textarea ref="markdown" id="markdown-textarea" value={this.state.markdown} onChange={() => this.setState({ markdown: this.refs.markdown.value })}></textarea>
-        <div className="markdown-body" dangerouslySetInnerHTML={{ __html: mdc.render(this.state.markdown) }}></div>
+        <textarea ref="markdown" id="markdown-textarea" value={markdown} onChange={() => updateMarkdown(this.refs.markdown.value)}></textarea>
+        <div className="markdown-body" dangerouslySetInnerHTML={{ __html: mdc.render(markdown) }}></div>
       </div>
     );
   }
 }
 
-ReactDOM.render(<MarkdownEditor />, document.getElementById('root'));
+const reducer = (state = { markdown: '' }, action) => {
+  switch (action.type) {
+    case 'UPDATE_MARKDOWN':
+      return Object.assign({}, state, {
+        markdown: action.markdown
+      });
+    default:
+      return state;
+  }
+};
+const store = createStore(reducer);
+const render = () => ReactDOM.render(
+  <MarkdownEditor markdown={store.getState().markdown} updateMarkdown={(markdown) => store.dispatch({ type: "UPDATE_MARKDOWN", markdown })} />,
+  document.getElementById('root')
+);
+render();
+store.subscribe(render);
