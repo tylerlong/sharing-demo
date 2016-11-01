@@ -30,6 +30,7 @@
     "webpack": "^1.13.3"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
     "markdown-core": "^0.7.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

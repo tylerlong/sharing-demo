@@ -3,6 +3,7 @@ require('./index.css');
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { createStore } = require('redux');
+const Immutable = require('immutable');
 
 
 class MarkdownEditor extends React.Component {
@@ -17,19 +18,17 @@ class MarkdownEditor extends React.Component {
   }
 }
 
-const reducer = (state = { markdown: '' }, action) => {
+const reducer = (state = Immutable.Map({ markdown: '' }), action) => {
   switch (action.type) {
     case 'UPDATE_MARKDOWN':
-      return Object.assign({}, state, {
-        markdown: action.markdown
-      });
+      return state.set('markdown', action.markdown);
     default:
       return state;
   }
 };
 const store = createStore(reducer);
 const render = () => ReactDOM.render(
-  <MarkdownEditor markdown={store.getState().markdown} updateMarkdown={(markdown) => store.dispatch({ type: "UPDATE_MARKDOWN", markdown })} />,
+  <MarkdownEditor markdown={store.getState().get('markdown')} updateMarkdown={(markdown) => store.dispatch({ type: "UPDATE_MARKDOWN", markdown })} />,
   document.getElementById('root')
 );
 render();
