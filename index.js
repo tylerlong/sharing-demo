@@ -1,3 +1,7 @@
+const $ = require('jquery');
+const mdc = require('markdown-core/markdown-core-node');
+
+
 $(function(){
   $('#markdown-textarea').on('input propertychange paste', function() {
     const markdown = $(this).val();

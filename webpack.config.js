@@ -4,4 +4,12 @@ module.exports = {
     path: __dirname,
     filename: "index.bundle.js",
   },
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+    ],
+  },
 };
