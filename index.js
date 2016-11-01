@@ -1,5 +1,6 @@
 const $ = require('jquery');
 const mdc = require('markdown-core/markdown-core-node');
+require('./index.css');
 
 
 $(function(){
