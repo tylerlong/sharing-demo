@@ -4,6 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const { createStore } = require('redux');
 const Immutable = require('immutable');
+const { connect, Provider } = require('react-redux');
 
 
 class MarkdownEditor extends React.Component {
@@ -27,9 +28,22 @@ const reducer = (state = Immutable.Map({ markdown: '' }), action) => {
   }
 };
 const store = createStore(reducer);
-const render = () => ReactDOM.render(
-  <MarkdownEditor markdown={store.getState().get('markdown')} updateMarkdown={(markdown) => store.dispatch({ type: "UPDATE_MARKDOWN", markdown })} />,
+const mapStateToProps = (state) => {
+  return {
+    markdown: state.get('markdown'),
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateMarkdown: (markdown) => {
+      dispatch({ type: "UPDATE_MARKDOWN", markdown });
+    },
+  };
+};
+const App = connect(mapStateToProps, mapDispatchToProps)(MarkdownEditor);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
-render();
-store.subscribe(render);
