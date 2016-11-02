@@ -7,6 +7,7 @@ const Immutable = require('immutable');
 const { connect, Provider } = require('react-redux');
 
 
+// React
 class MarkdownEditor extends React.Component {
   render() {
     const { markdown, updateMarkdown } = this.props;
@@ -19,6 +20,7 @@ class MarkdownEditor extends React.Component {
   }
 }
 
+// Redux
 const reducer = (state = Immutable.Map({ markdown: '' }), action) => {
   switch (action.type) {
     case 'UPDATE_MARKDOWN':
@@ -28,6 +30,8 @@ const reducer = (state = Immutable.Map({ markdown: '' }), action) => {
   }
 };
 const store = createStore(reducer);
+
+// react-redux
 const mapStateToProps = (state) => {
   return {
     markdown: state.get('markdown'),
